@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EQ Document Management System ROI Estimator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        img {
+            width: 200px;  /* Adjust logo size */
+        }
+        h1 {
+            color: #4CAF50;  /* Your brand color */
+            font-size: 24px;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+        label, input {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input {
+            padding: 8px;
+            width: 100%;
+            max-width: 400px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #results {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .remark {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="EQ Logo">  <!-- Your logo added here -->
+        <h1>EQ Document Management System ROI Estimator</h1>
+    </header>
+
+    <!-- Dropdown to Select Industry -->
+    <label for="industry">Select Your Industry:</label>
+    <select id="industry" onchange="setIndustryValues()">
+        <option value="">--Select Industry--</option>
+        <option value="law">Law Firm</option>
+        <option value="accounting">Accounting</option>
+        <option value="healthcare">Healthcare</option>
+        <option value="general">General Business</option>
+        <option value="retail">Retail</option>
+        <option value="manufacturing">Manufacturing</option>
+        <option value="education">Education</option>
+    </select><br><br>
+
+    <!-- Input fields for the user -->
+    <form id="roiCalculator">
+        <label for="manualHandling">Manual Document Handling Costs (per year in RM):</label>
+        <input type="number" id="manualHandling" required><br><br>
+        
+        <label for="paperPrinting">Paper and Printing Costs (per year in RM):</label>
+        <input type="number" id="paperPrinting" required><br><br>
+        
+        <label for="storage">Physical Storage Costs (per year in RM):</label>
+        <input type="number" id="storage" required><br><br>
+        
+        <label for="dmsCost">DMS Cost (per year in RM):</label>
+        <input type="number" id="dmsCost" required><br><br>
+        
+        <!-- Button to trigger calculation -->
+        <button type="button" onclick="calculateROI()">Calculate ROI</button>
+    </form>
+
+    <!-- Assuming annual DMS cost = RM2,400/year -->
+    
+    <!-- Display Results -->
+    <div id="results">
+        <h2>Results:</h2>
+        <p id="totalSavings">Total Estimated Savings: RM 0</p>
+        <p id="netROI">Net ROI: RM 0</p>
+    </div>
+
+    <div class="remark">Assuming annual DMS cost = RM2,400/year</div>
+
+    <script>
+        // Predefined values based on industry
+        const industryData = {
+            'law': {
+                manualHandling: 4000,
+                paperPrinting: 2000,
+                storage: 3000
+            },
+            'accounting': {
+                manualHandling: 3500,
+                paperPrinting: 1500,
+                storage: 2000
+            },
+            'healthcare': {
+                manualHandling: 3000,
+                paperPrinting: 1200,
+                storage: 1800
+            },
+            'general': {
+                manualHandling: 2500,
+                paperPrinting: 1000,
+                storage: 1500
+            },
+            'retail': {
+                manualHandling: 2800,
+                paperPrinting: 1300,
+                storage: 1000
+            },
+            'manufacturing': {
+                manualHandling: 5000,
+                paperPrinting: 2500,
+                storage: 3500
+            },
+            'education': {
+                manualHandling: 2000,
+                paperPrinting: 800,
+                storage: 1200
+            }
+        };
+
+        // Set values based on selected industry
+        function setIndustryValues() {
+            const industry = document.getElementById('industry').value;
+            if (industry && industryData[industry]) {
+                document.getElementById('manualHandling').value = industryData[industry].manualHandling;
+                document.getElementById('paperPrinting').value = industryData[industry].paperPrinting;
+                document.getElementById('storage').value = industryData[industry].storage;
+            }
+        }
+
+        // JavaScript function to calculate ROI
+        function calculateROI() {
+            // Get the values entered by the user
+            const manualHandling = parseFloat(document.getElementById('manualHandling').value);
+            const paperPrinting = parseFloat(document.getElementById('paperPrinting').value);
+            const storage = parseFloat(document.getElementById('storage').value);
+            const dmsCost = parseFloat(document.getElementById('dmsCost').value);
+
+            // Calculate total savings
+            const totalSavings = manualHandling + paperPrinting + storage;
+
+            // Calculate net ROI
+            const netROI = totalSavings - dmsCost;
+
+            // Display the results
+            document.getElementById('totalSavings').innerHTML = `Total Estimated Savings: RM ${totalSavings.toFixed(2)}`;
+            document.getElementById('netROI').innerHTML = `Net ROI: RM ${netROI.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
